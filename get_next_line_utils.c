@@ -6,7 +6,7 @@
 /*   By: joramire <joramire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 17:10:00 by joramire          #+#    #+#             */
-/*   Updated: 2022/11/29 21:35:45 by joramire         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:57:39 by joramire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (s == NULL)
+		return (NULL);
 	while (*s != '\0')
 	{
 		if (*s == (char)c)
@@ -71,23 +73,21 @@ char	*ft_strlcat(char **dest, char **sorc, size_t max)
 	size_t	i;
 	size_t	init_size_dst;
 	char	*dst;
-	char	*src;
 
 	if (*sorc == NULL || (*sorc)[0] == '\0')
 		return (*dest);
 	init_size_dst = ft_strlen(*dest);
 	dst = (char *)malloc((ft_strlen(*dest) + ft_strlen(*sorc) + 1));
-	if ((*dest)[0] != '\0')
-		free(*dest);
 	if (dst == NULL)
 		return (NULL);
-	src = *sorc;
 	i = 0;
-	while (i < max && src[i] != '\0')
+	while (i < max && (*sorc)[i] != '\0')
 	{
-		dst[init_size_dst + i] = src[i];
+		dst[init_size_dst + i] = (*sorc)[i];
 		i++;
 	}
 	dst[init_size_dst + i] = '\0';
+	if ((*dest) != NULL)
+		free(*dest);
 	return (dst);
 }

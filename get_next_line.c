@@ -6,7 +6,7 @@
 /*   By: joramire <joramire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:22:11 by joramire          #+#    #+#             */
-/*   Updated: 2022/11/29 22:18:22 by joramire         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:53:14 by joramire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ char	*ft_read(int fd, char **buff, char **remain)
 	nl = ft_strchr(*remain, '\n');
 	while ((nl == NULL) && nbytes > 0)
 	{
-		nbytes = read(fd, *buff, BUFFER_SIZE);
+		nbytes = read(fd, (*buff), BUFFER_SIZE);
 		if (nbytes == -1)
 			return (NULL);
-		*buff[nbytes] = '\0';
+		(*buff)[nbytes] = '\0';
 		*remain = ft_strlcat(remain, buff, nbytes);
 		if (*remain == NULL)
 			return (NULL);
@@ -77,7 +77,7 @@ char	*ft_read(int fd, char **buff, char **remain)
 char	*get_next_line(int fd)
 {
 	char			*buff;
-	static char		*remain = "";
+	static char		*remain = NULL;
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -85,19 +85,10 @@ char	*get_next_line(int fd)
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (buff == NULL)
 		return (NULL);
-	if (remain == NULL)
-	{
-		free(buff);
-		buff = NULL;
-		return (NULL);
-	}
 	else
 		line = ft_read(fd, &buff, &remain);
 	if (line == NULL)
 	{
-		if ((remain)[0] != '\0')
-			free(remain);
-		remain = NULL;
 		free(buff);
 		buff = NULL;
 		return (NULL);
