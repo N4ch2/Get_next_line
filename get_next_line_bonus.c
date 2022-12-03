@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joramire <joramire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:22:11 by joramire          #+#    #+#             */
-/*   Updated: 2022/12/03 17:02:34 by joramire         ###   ########.fr       */
+/*   Updated: 2022/12/03 19:38:54 by joramire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_update(char **remain, char *init)
 {
@@ -38,23 +38,23 @@ char	*ft_read(int fd, char **buff, char **remain)
 	char	*line;
 
 	nbytes = 1;
-	while ((ft_strchr(*remain, '\n') == NULL) && nbytes > 0)
+	while ((ft_strchr((*remain), '\n') == NULL) && nbytes > 0)
 	{
 		nbytes = read(fd, (*buff), BUFFER_SIZE);
 		if (nbytes == -1)
 			return (ft_free(remain));
 		(*buff)[nbytes] = '\0';
-		*remain = ft_strlcat(remain, buff, nbytes);
-		if (*remain == NULL)
+		(*remain) = ft_strlcat(remain, buff, nbytes);
+		if ((*remain) == NULL)
 			return (NULL);
 	}
-	if (ft_strchr(*remain, '\n') != NULL)
-		line = ft_update(remain, ft_strchr(*remain, '\n') + 1);
+	if (ft_strchr((*remain), '\n') != NULL)
+		line = ft_update(remain, ft_strchr((*remain), '\n') + 1);
 	else
 	{
-		if ((*remain)[0] == '\0')
+		if (((*remain))[0] == '\0')
 			return (ft_free(remain));
-		line = ft_strlcpy_to_c((*remain), '\0');
+		line = ft_strlcpy_to_c(((*remain)), '\0');
 		ft_free(remain);
 	}
 	return (line);
@@ -63,7 +63,7 @@ char	*ft_read(int fd, char **buff, char **remain)
 char	*get_next_line(int fd)
 {
 	char			*buff;
-	static char		*remain = NULL;
+	static char		*remain[4096];
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -72,7 +72,7 @@ char	*get_next_line(int fd)
 	if (buff == NULL)
 		return (NULL);
 	else
-		line = ft_read(fd, &buff, &remain);
+		line = ft_read(fd, &buff, &remain[fd]);
 	if (line == NULL)
 		return (ft_free(&buff));
 	ft_free(&buff);
