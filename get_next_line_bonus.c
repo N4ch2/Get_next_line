@@ -6,7 +6,7 @@
 /*   By: joramire <joramire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:22:11 by joramire          #+#    #+#             */
-/*   Updated: 2022/12/03 19:38:54 by joramire         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:24:35 by joramire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ char	*ft_update(char **remain, char *init)
 	i = 0;
 	while ((*remain)[i] != '\n')
 		i++;
-	line = ft_strlcpy_to_c(*remain, '\n');
+	line = ft_strlcpy_to_c(remain, '\n', remain);
 	if (line == NULL)
 		return (NULL);
-	new = ft_strlcpy_to_c(init, '\0');
+	new = ft_strlcpy_to_c(&init, '\0', remain);
 	if (new == NULL)
-		return (NULL);
+		return (ft_free(&line), NULL);
 	free(*remain);
 	*remain = new;
 	return (line);
@@ -54,7 +54,7 @@ char	*ft_read(int fd, char **buff, char **remain)
 	{
 		if (((*remain))[0] == '\0')
 			return (ft_free(remain));
-		line = ft_strlcpy_to_c(((*remain)), '\0');
+		line = ft_strlcpy_to_c(remain, '\0', remain);
 		ft_free(remain);
 	}
 	return (line);
@@ -70,7 +70,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (buff == NULL)
-		return (NULL);
+		return (ft_free(&(remain[fd])), NULL);
 	else
 		line = ft_read(fd, &buff, &remain[fd]);
 	if (line == NULL)

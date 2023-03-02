@@ -6,7 +6,7 @@
 /*   By: joramire <joramire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 19:31:29 by joramire          #+#    #+#             */
-/*   Updated: 2022/12/03 19:31:53 by joramire         ###   ########.fr       */
+/*   Updated: 2022/12/04 15:04:12 by joramire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strchr(const char *s, int c);
 /*Free obj if it is necessary and return NULL*/
 char	*ft_free(char **obj);
 /*Copies up to dstsize - 1 characters from the string src to dst*/
-char	*ft_strlcpy_to_c(char *src, int c);
+char	*ft_strlcpy_to_c(char **src, int c, char **tofree);
 /*Appends string src to the end of dst and return a pointer to dst*/
 char	*ft_strlcat(char **dst, char **src, size_t dstsize);
 #endif
